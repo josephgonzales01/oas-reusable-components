@@ -1,0 +1,76 @@
+# Reusable API response definitions
+
+NotFound:
+  description: The specified resource was not found.
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/Error' # Reference the generic Error schema
+      examples:
+        ResourceNotFound: # Specific example for this response context
+          $ref: './examples.yaml#/NotFoundError' # Reference a reusable example
+
+BadRequest:
+  description: The request could not be understood or contained invalid parameters.
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/Error' # Reference Error schema
+      examples:
+        InputValidationError:
+          $ref: './examples.yaml#/BadRequestError' # Reference reusable example
+
+Unauthorized:
+  description: Authentication credentials are required or invalid. No response body typically needed.
+
+InternalServerError:
+  description: An unexpected error occurred on the server.
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/Error' # Reference Error schema
+
+SuccessItemResponse:
+  description: Successfully retrieved or created item details.
+  headers: # Include reusable headers in the response
+    ETag:
+      $ref: './headers.yaml#/ETag' # Reference ETag header
+  content:
+    application/json:
+      schema:
+        $ref: './schemas.yaml#/Item' # Reference the Item schema
+      examples:
+        RetrievedItem:
+          $ref: './examples.yaml#/SampleItem' # Reference the item example
+
+SuccessItemListResponse:
+  description: Successfully retrieved list of items.
+  headers: # Include reusable headers in the response
+    X-RateLimit-Limit:
+      $ref: './headers.yaml#/RateLimitLimit' # Reference RateLimit header
+    X-RateLimit-Remaining:
+      $ref: './headers.yaml#/RateLimitRemaining' # Reference RateLimit header
+    X-RateLimit-Reset:
+      $ref: './headers.yaml#/RateLimitReset' # Reference RateLimit header
+  content:
+    application/json:
+      schema:
+         $ref: './schemas.yaml#/ItemList' # Reference the ItemList schema (array of Items)
+
+Created:
+  description: Resource created successfully. Location header indicates the new resource URL.
+  headers:
+    Location: # Response-specific header
+      description: URL of the newly created resource.
+      schema:
+        type: string
+        format: uri
+    ETag: # Reusable header
+      $ref: './headers.yaml#/ETag'
+  content:
+    application/json: # Often returns the created resource
+      schema:
+        $ref: './schemas.yaml#/Item'
+      examples:
+        NewItemCreated:
+          $ref: './examples.yaml#/SampleItem'
