@@ -1,0 +1,21 @@
+# Reusable example payloads
+
+SampleItem:
+  summary: Example of a standard item
+  value:
+    id: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    name: "Super Gadget"
+    description: "An improved and superior gadget."
+    createdAt: "2025-05-05T10:30:00Z"
+
+NotFoundError:
+  summary: Example of a 404 Not Found error
+  value:
+    code: "ITEM_NOT_FOUND"
+    message: "The item with the specified ID does not exist."
+
+BadRequestError:
+  summary: Example of a 400 Bad Request error
+  value:
+    code: "INVALID_INPUT"
+    message: "Invalid name provided for the item."
