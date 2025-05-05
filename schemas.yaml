@@ -1,0 +1,45 @@
+# Reusable data structure definitions (schemas)
+
+Error:
+  type: object
+  properties:
+    code:
+      type: string
+      description: An application-specific error code.
+      example: "NOT_FOUND"
+    message:
+      type: string
+      description: A human-readable description of the error.
+      example: "The requested resource could not be found."
+  required:
+    - code
+    - message
+
+Item:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+      description: Unique identifier for the item.
+      readOnly: true
+    name:
+      type: string
+      description: Name of the item.
+      example: "Gadget"
+    description:
+      type: string
+      description: Optional description of the item.
+      example: "A very useful gadget."
+    createdAt:
+      type: string
+      format: date-time
+      description: Timestamp when the item was created.
+      readOnly: true
+  required:
+    - name
+
+ItemList:
+ type: array
+ items:
+   $ref: './schemas.yaml#/Item' # Reference within the same directory
