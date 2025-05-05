@@ -7,9 +7,19 @@ This repository demonstrates a best-practice approach for structuring OpenAPI 3.
 The core idea is to define reusable elements like schemas, parameters, responses, security schemes, etc., in dedicated files within a `components/` directory and then reference them from the main `openapi.yaml` file using the `$ref` keyword.
 
 ## File Structure
-
-.├── openapi.yaml        # Main API definition file (paths, operations)├── components/         # Directory for reusable components│   ├── headers.yaml│   ├── parameters.yaml│   ├── examples.yaml│   ├── request_bodies.yaml│   ├── responses.yaml│   ├── schemas.yaml│   └── security_schemes.yaml└── README.md           # This file
+```
+.├── openapi.yaml        # Main API definition file (paths, operations)
+ ├── components/         # Directory for reusable components
+ │   ├── headers.yaml
+ │   ├── parameters.yaml
+ │   ├── examples.yaml
+ │   ├── request_bodies.yaml
+ │   ├── responses.yaml
+ │   ├── schemas.yaml
+ │   └── security_schemes.yaml
+ └── README.md           # This file
 ## File Descriptions
+```
 
 * **`openapi.yaml`**: The main entry point for the API specification. It defines the overall `info`, `servers`, `paths`, and `operations`. It primarily *references* components defined in external files.
 * **`components/`**: This directory holds all the reusable component definitions.
