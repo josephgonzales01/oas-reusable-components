@@ -1,0 +1,13 @@
+# Reusable security scheme definitions
+
+ApiKeyAuth:
+  type: apiKey
+  in: header
+  name: X-API-KEY # Name of the header containing the API key
+  description: API Key authentication. Provide your key in the 'X-API-KEY' header.
+
+BearerAuth:
+  type: http
+  scheme: bearer
+  bearerFormat: JWT # Optional, provides hint about the format
+  description: Bearer token authentication using JWT. Provide the token in the 'Authorization: Bearer <token>' header.
