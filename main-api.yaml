@@ -1,0 +1,95 @@
+openapi: 3.0.3
+info:
+  title: API with External Components
+  description: Demonstrates referencing reusable components defined in separate files.
+  version: 1.0.0
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+servers:
+  - url: https://api.example.com/v1
+    description: Production Server
+
+# Optional: You can pre-load external components into the main components section
+# This allows using internal references like '#/components/parameters/LimitParam' below.
+# However, for clarity showing the direct external reference, we will use that method here.
+# components:
+#   parameters:
+#     $ref: './components/parameters.yaml'
+#   schemas:
+#     $ref: './components/schemas.yaml'
+#   securitySchemes:
+#      $ref: './components/security_schemes.yaml'
+#   ... etc ...
+
+
+# Apply global security (Optional - requires pre-loading components or defining locally)
+# security:
+#  - ApiKeyAuth: []
+
+paths:
+  /items:
+    get:
+      summary: List items
+      description: Retrieves a list of items, supporting pagination.
+      tags: [Items]
+      parameters:
+        # Reference parameters from the external file
+        - $ref: './components/parameters.yaml#/LimitParam'
+        - $ref: './components/parameters.yaml#/OffsetParam'
+        - $ref: './components/parameters.yaml#/CorrelationIdHeader'
+      responses:
+        '200':
+          # Reference a response from the external file
+          $ref: './components/responses.yaml#/SuccessItemListResponse'
+        '500':
+          # Reference another response from the external file
+          $ref: './components/responses.yaml#/InternalServerError'
+      # Operation-specific security (alternative to global)
+      security:
+        - BearerAuth: [] # Reference security scheme defined externally
+
+    post:
+      summary: Create a new item
+      description: Adds a new item to the collection.
+      tags: [Items]
+      requestBody:
+        # Reference a request body from the external file
+        $ref: './components/request_bodies.yaml#/ItemBody'
+      responses:
+        '201':
+          # Reference a response for successful creation
+          $ref: './components/responses.yaml#/Created'
+        '400':
+          # Reference a bad request response
+          $ref: './components/responses.yaml#/BadRequest'
+        '401':
+          # Reference an unauthorized response
+          $ref: './components/responses.yaml#/Unauthorized'
+        '500':
+          $ref: './components/responses.yaml#/InternalServerError'
+      security:
+        - ApiKeyAuth: [] # Requires API key for this operation
+
+  /items/{itemId}:
+    parameters:
+      # Reference a path parameter from the external file
+      - $ref: './components/parameters.yaml#/ItemIdParam'
+    get:
+      summary: Get item by ID
+      description: Retrieves details for a specific item using its UUID.
+      tags: [Items]
+      responses:
+        '200':
+          # Reference a single item success response
+          $ref: './components/responses.yaml#/SuccessItemResponse'
+        '401':
+          $ref: './components/responses.yaml#/Unauthorized'
+        '404':
+          # Reference a not found response
+          $ref: './components/responses.yaml#/NotFound'
+        '500':
+          $ref: './components/responses.yaml#/InternalServerError'
+      security:
+        - BearerAuth: [] # Requires Bearer token
