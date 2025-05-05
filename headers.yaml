@@ -1,0 +1,22 @@
+# Reusable response header definitions
+
+RateLimitLimit:
+  description: The maximum number of requests allowed in the current window.
+  schema:
+    type: integer
+
+RateLimitRemaining:
+  description: The number of requests remaining in the current window.
+  schema:
+    type: integer
+
+RateLimitReset:
+  description: The timestamp (UTC epoch seconds) when the rate limit window resets.
+  schema:
+    type: integer
+    format: int64
+
+ETag:
+ description: An identifier for a specific version of a resource (entity tag).
+ schema:
+   type: string
